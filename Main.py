@@ -31,7 +31,7 @@ class Observer:
         if current_minutes != 0:
             sleep_time = (60 - current_minutes) * 60
             print("Sleeping for an flat hour: " + str(sleep_time) + " seconds")
-            time.sleep(sleep_time)
+            # time.sleep(sleep_time)
 
         while runs > 0:
             print("This many runs left: " + str(runs))
@@ -69,6 +69,14 @@ class Observer:
                     "VALUES (%s, %s, %s, %s, %s, %s, %s)")
 
         cursor1 = self.sql_connector.cursor()
+        counter = 0
+        pre_dump_list = [stream["channel"]["name"], stream["game"], stream["channel"]["language"], stream["viewers"],
+                         stream["channel"]["followers"], stream["channel"]["views"]]
+        for entry in pre_dump_list:
+            if isinstance(entry, str):
+                if len(entry) > 50:
+                    pre_dump_list[counter] = entry[:49]
+            counter += 1
 
         dump = (stream["channel"]["name"],
                 stream["game"],
@@ -77,10 +85,16 @@ class Observer:
                 stream["channel"]["followers"],
                 stream["channel"]["views"],
                 timestamp)
-
         cursor1.execute(add_data, dump)
 
         for chatter in chatters:
+            pre_dump_list = [chatter, streamer, game]
+            counter = 0
+            for entry in pre_dump_list:
+                if isinstance(entry, str):
+                    if len(entry) > 50:
+                        pre_dump_list[counter] = entry[:49]
+                counter += 1
             dump = (chatter,
                     streamer,
                     game,
