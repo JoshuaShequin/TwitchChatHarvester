@@ -31,7 +31,7 @@ class Observer:
         if current_minutes != 0:
             sleep_time = (60 - current_minutes) * 60
             print("Sleeping for an flat hour: " + str(sleep_time) + " seconds")
-            # time.sleep(sleep_time)
+            time.sleep(sleep_time)
 
         while runs > 0:
             print("This many runs left: " + str(runs))
